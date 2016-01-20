@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="edu.cpp.cs499.androidbasics.MainActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:id="@+id/watchingContainer"
+        android:gravity="top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="watching:"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#000080"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/watchingList" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:id="@+id/borrowingContainer"
+        android:layout_below="@+id/watchingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="borrowing:"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#000080"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/borrowingList" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mainBar"
+        android:layout_weight="0"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_below="@+id/borrowingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/postButton"
+        android:text="post"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:background="#000080"
+        android:textColor="#ffffff"
+        android:layout_weight="5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/homeButton"
+        android:text="home"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:background="#000080"
+        android:textColor="#ffffff"
+        android:layout_weight="5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:text="search"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:background="#000080"
+        android:textColor="#ffffff"
+        android:layout_weight="5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>
