@@ -15,8 +15,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".post" />
-        <activity android:name=".search"></activity>
+        <activity
+            android:name=".post"
+            android:label="Sharing is caring!"
+            android:parentActivityName=".MainActivity">
+
+            <!-- Parent Activity meta data -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".search"
+            android:label="What do you need?"
+            android:parentActivityName=".MainActivity">
+
+            <!-- Parent Activity meta data -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".ItemInformation"></activity>
     </application>
 
 </manifest>

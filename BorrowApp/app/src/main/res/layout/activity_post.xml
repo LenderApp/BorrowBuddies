@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="johnnybanh.borrowapp.post">
 
@@ -22,6 +19,7 @@
 
     <EditText
         android:hint="Item Name"
+        android:id="@+id/postItemName"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
@@ -31,6 +29,7 @@
 
     <EditText
         android:hint="Type"
+        android:id="@+id/postItemType"
         android:layout_margin="10dp"
         android:layout_weight="0"
         android:layout_width="match_parent"
@@ -38,6 +37,7 @@
 
     <EditText
         android:hint="Specifics"
+        android:id="@+id/postItemSpecifics"
         android:gravity="top"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -45,48 +45,73 @@
         android:layout_weight="1"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/rateLabel"
-            android:hint="Rate: $"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"/>
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/rateTextbox"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"/>
+            <TextView
+                android:id="@+id/rateLabel"
+                android:hint="Rate: $"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"/>
 
-        <TextView
-            android:id="@+id/solidLabel"
-            android:hint="Do a solid"
+            <EditText
+                android:id="@+id/rateTextbox"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"/>
+            android:layout_height="wrap_content">
 
-        <CheckBox
-            android:id="@+id/solidCheckbox"
+            <TextView
+                android:id="@+id/solidLabel"
+                android:hint="Do a solid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"/>
+
+            <CheckBox
+                android:id="@+id/solidCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"/>
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/postButton"
-            android:text="post"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            <Button
+                android:id="@+id/postItemButton"
+                android:text="post"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
+    </RelativeLayout>
 
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
 </LinearLayout>
