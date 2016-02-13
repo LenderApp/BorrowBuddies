@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/listview_selector"
     android:layout_marginTop="@dimen/activity_vertical_margin"
     tools:context="johnnybanh.borrowapp.ItemInformation">
 
@@ -14,11 +15,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin">
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@drawable/listview_selector">
 
         <TextView
             android:text="Item Name:"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#000080"
             android:layout_width="wrap_content"
@@ -26,7 +28,7 @@
 
         <TextView
             android:text="Location:"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#000080"
             android:layout_width="wrap_content"
@@ -52,7 +54,7 @@
 
         <TextView
             android:text="Item Rate:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="#000080"
             android:layout_width="wrap_content"
@@ -60,7 +62,7 @@
 
         <TextView
             android:text="Item Types:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="#000080"
             android:layout_width="wrap_content"
@@ -68,7 +70,7 @@
 
         <TextView
             android:text="Item Quantity:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="#000080"
             android:layout_width="wrap_content"
@@ -76,7 +78,7 @@
 
         <TextView
             android:text="Description: "
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="#000080"
             android:layout_width="wrap_content"
@@ -89,7 +91,10 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="10dp">
 
         <Button
             android:text="Watch"
@@ -97,7 +102,8 @@
             android:textColor="#ffffff"
             android:background="#008080"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"/>
 
         <Button
             android:text="Borrow"
@@ -105,10 +111,16 @@
             android:textColor="#ffffff"
             android:background="#008080"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
 
 
     </LinearLayout>
+
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
 
 </LinearLayout>
 

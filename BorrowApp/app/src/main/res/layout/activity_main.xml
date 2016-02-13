@@ -31,7 +31,7 @@
         >
 
         <TextView
-            android:text="My List:"
+            android:text="Currently Borrowing:"
             android:textSize="25sp"
             android:textStyle="bold"
             android:textColor="#000080"

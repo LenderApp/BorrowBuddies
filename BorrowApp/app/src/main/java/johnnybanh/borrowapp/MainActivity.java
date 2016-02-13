@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +22,11 @@ public class MainActivity extends AppCompatActivity {
 
     ListView borrowedListView;
     Toolbar toolbar;
+    Button searchButton;
     ImageButton homeToolBtn, profileToolBtn, watchingToolBtn;
     int myColor = Color.rgb(10,10,70);
 
-    private ArrayList<BorrowedItems> borrowedItems;
+   private ArrayList<BorrowedItems> borrowedItems;
     private BorrowedItemsAdapter borrowedItemsAdapter;
 
     @Override
@@ -32,19 +34,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        searchButton = (Button) findViewById(R.id.homeSearchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, search.class);
+                startActivity(intent);
+            }
+        });
         borrowedItems = new ArrayList<>();
-        borrowedItems.add(new BorrowedItems("Bauer APX Pro Gloves 13in", "01/02/2016", R.drawable.cat));
-        borrowedItems.add(new BorrowedItems("Bauer Pro Stick", "12/25/2015", R.drawable.ducks));
-        borrowedItems.add(new BorrowedItems("Stanley Power Drill", "04/11/2014", R.drawable.turtle));
-        borrowedItems.add(new BorrowedItems("Reebok size 9 Hockey Skates", "01/02/2016", R.drawable.cat));
-        borrowedItems.add(new BorrowedItems("Sherwood Hockey stick", "05/02/2016", R.drawable.ducks));
-        borrowedItems.add(new BorrowedItems("X-box One 2 Controller", "06/02/2016", R.drawable.turtle));
-        borrowedItems.add(new BorrowedItems("Kitchen Aid Fry Pan", "08/02/2016", R.drawable.cat));
-        borrowedItems.add(new BorrowedItems("CCM Vector Helmet Medium", "07/02/2016", R.drawable.ducks));
-        borrowedItems.add(new BorrowedItems("Fuji 52cm Road Bicycle", "11/02/2016", R.drawable.turtle));
+        borrowedItems.add(new BorrowedItems("Bauer Vapor Skates", "01/02/2016", R.drawable.skates));
+        borrowedItems.add(new BorrowedItems("Crock Pot Cooker", "12/25/2015", R.drawable.crockpot));
+        borrowedItems.add(new BorrowedItems("iHome for iPhone 4, 4s", "01/11/2016", R.drawable.ihome));
+        borrowedItems.add(new BorrowedItems("Warrior Hockey Gloves", "01/02/2016", R.drawable.gloves));
 
         borrowedListView = (ListView) findViewById(R.id.borrowingList);
         borrowedItemsAdapter = new BorrowedItemsAdapter(this, borrowedItems);
+
+        borrowedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               Intent intent = new Intent(MainActivity.this, ItemInformation.class);
+                startActivity(intent);
+            }
+        });
+
         borrowedListView.setAdapter(borrowedItemsAdapter);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);

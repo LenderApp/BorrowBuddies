@@ -7,15 +7,31 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="johnnybanh.borrowapp.post">
 
-    <TextView
-        android:text="Post"
-        android:textAlignment="center"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:textSize="25sp"
-        android:textStyle="bold"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:hint="City"
+            android:id="@+id/postItemCity"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="State"
+            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/postItemState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
     <EditText
         android:hint="Item Name"
@@ -27,13 +43,113 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:hint="Type"
-        android:id="@+id/postItemType"
-        android:layout_margin="10dp"
-        android:layout_weight="0"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:hint="Rate $"
+            android:id="@+id/postItemRate"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:text="Free"
+            android:id="@+id/postItemFree"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:text="Categories"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:text="Tools"
+                android:id="@+id/toolsCheckbox"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:text="Sports"
+                android:id="@+id/sportsCheckbox"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:text="Culinary"
+                android:id="@+id/culinaryCheckbox"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:text="Academics"
+                android:id="@+id/academicsCheckbox"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:text="Clothing"
+                android:id="@+id/clothingCheckbox"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:text="Electronics"
+                android:id="@+id/electronicsCheckbox"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:text="Home Goods"
+                android:id="@+id/homeGoodsCheckbox"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <CheckBox
+                android:text="Misc."
+                android:id="@+id/miscCheckBox"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <EditText
         android:hint="Specifics"
@@ -45,70 +161,18 @@
         android:layout_weight="1"
         android:layout_height="wrap_content" />
 
-    <RelativeLayout
+
+    <Button
+        android:id="@+id/postItemButton"
+        android:text="post"
+        android:background="#008080"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_alignParentLeft="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/rateLabel"
-                android:hint="Rate: $"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"/>
-
-            <EditText
-                android:id="@+id/rateTextbox"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/solidLabel"
-                android:hint="Do a solid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"/>
-
-            <CheckBox
-                android:id="@+id/solidCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/postItemButton"
-                android:text="post"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_weight="0"/>
 
     <include
         layout="@layout/toolbar_main"

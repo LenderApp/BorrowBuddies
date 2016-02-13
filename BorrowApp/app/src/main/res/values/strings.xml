@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Name of App -->
-    <string name="app_name">My App</string>
+    <string name="app_name">Borrow Buddies</string>
 
     <!--Activity Names-->
     <!--<string name="title_activity_main">My List</string>-->
@@ -12,5 +12,20 @@
     <string name="action_search">Search</string>x
     <string name="action_post">Post</string>
 
+
+    <!--Categories-->
+    
+    <string-array name="catergories_array">
+
+        <item>Tools</item>
+        <item>Sports</item>
+        <item>Culinary</item>
+        <item>Academics</item>
+        <item>Clothing</item>
+        <item>Electronics</item>
+        <item>Home Goods</item>
+        <item>Essentials</item>
+        <item>Miscellaneous</item>
+    </string-array>
 
 </resources>

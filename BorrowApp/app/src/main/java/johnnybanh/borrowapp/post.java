@@ -12,47 +12,88 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
+import com.firebase.client.Firebase;
 import java.util.ArrayList;
 
-public class post extends AppCompatActivity {
-  /*  ArrayList<String> postItemNameList = new ArrayList<String>();
-    ArrayList<String> postItemTypeList = new ArrayList<String>();
-    ArrayList<String> postItemSpecificsList = new ArrayList<String>();
-    ArrayList<Double> postItemRateList = new ArrayList<Double>();
 
-    EditText itemName = (EditText) findViewById(R.id.postItemName);
-    EditText itemType = (EditText) findViewById(R.id.postItemType);
-    EditText itemSpecifics = (EditText) findViewById(R.id.postItemSpecifics);
-    EditText itemRate = (EditText) findViewById(R.id.rateTextbox);
-    CheckBox itemSolid = (CheckBox) findViewById(R.id.solidCheckbox);*/
+public class post extends AppCompatActivity {
+
     Toolbar toolbar;
     ImageButton homeToolBtn, profileToolBtn, watchingToolBtn;
+    Button postButton;
+    private Firebase firebase;
+    //EditText postItemName, postItemRate, postItemSpecifics, postItemCity, postItemState;
+    CheckBox free, tools, sports, culinary, academics, clothing, electronics, homeGoods, misc;
+    ArrayList<CheckBox> checklist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        Firebase.setAndroidContext(this);
+        firebase = new Firebase("https://luminous-inferno-3787.firebaseio.com/");
 
+        final EditText postItemName = (EditText) findViewById(R.id.postItemName);
+        final EditText postItemRate = (EditText) findViewById(R.id.postItemRate);
+        final EditText postItemSpecifics = (EditText) findViewById(R.id.postItemSpecifics);
+        final EditText postItemCity = (EditText) findViewById(R.id.postItemCity);
+        final EditText postItemState = (EditText) findViewById(R.id.postItemState);
+        free = (CheckBox) findViewById(R.id.postItemFree);
 
-        Button post = (Button) findViewById(R.id.postItemButton);
-        post.setOnClickListener(new View.OnClickListener() {
+        checklist = new ArrayList<CheckBox>();
+        tools = (CheckBox) findViewById(R.id.toolsCheckbox);
+        checklist.add(tools);
+        sports = (CheckBox) findViewById(R.id.sportsCheckbox);
+        checklist.add(sports);
+        culinary = (CheckBox) findViewById(R.id.culinaryCheckbox);
+        checklist.add(culinary);
+        academics = (CheckBox) findViewById(R.id.academicsCheckbox);
+        checklist.add(academics);
+        clothing = (CheckBox) findViewById(R.id.clothingCheckbox);
+        checklist.add(clothing);
+        electronics = (CheckBox) findViewById(R.id.electronicsCheckbox);
+        checklist.add(electronics);
+        homeGoods = (CheckBox) findViewById(R.id.homeGoodsCheckbox);
+        checklist.add(homeGoods);
+        misc = (CheckBox) findViewById(R.id.miscCheckBox);
+        checklist.add(misc);
+
+        postButton = (Button) findViewById(R.id.postItemButton);
+
+        postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = postItemName.getText().toString();
+                String rateTest = postItemRate.getText().toString();
+                Log.i("Test", rateTest);
+                double rate;
 
-                /*postItemNameList.add(itemName.toString());
-                postItemTypeList.add(itemType.toString());
-                postItemSpecificsList.add(itemSpecifics.toString());
-                double rate = Double.parseDouble(itemRate.toString());
-                postItemRateList.add(rate);
+                if ((rateTest == "") || (free.isChecked()))
+                    rate = 0.00;
+                else
+                    rate = Double.parseDouble(rateTest);
 
-                Log.i("list", postItemNameList.get(0));
-                Log.i("list", postItemTypeList.get(0));
-                Log.i("list", postItemSpecificsList.get(0));
-                Log.i("list", postItemRateList.get(0).toString());*/
+                String specifics = postItemSpecifics.getText().toString();
+                String categories = "";
 
+                for (CheckBox item : checklist){
+                    if (item.isChecked())
+                    {
+                        categories += item.getText().toString()+ " ";
+                    }
+                }
+                String city = postItemCity.getText().toString();
+                String state = postItemState.getText().toString();
+
+                PostItem postitem = new PostItem(name, rate, categories, specifics, city, state);
+                firebase.child("ItemBank/").push().setValue(postitem);
+
+                Intent intent = new Intent(post.this, MainActivity.class);
+                startActivity(intent);
+                Log.i("Test", "Item Name: " + name + " Item Rate: " + rate +  " Item Cat: " + categories.toString() + " Item Specs: " + specifics);
             }
         });
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeToolBtn = (ImageButton) toolbar.findViewById(R.id.home_button);
@@ -83,48 +124,20 @@ public class post extends AppCompatActivity {
             }
         });
 
-       /* toolbar.inflateMenu(R.menu.menu_toolbar);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
 
-                switch (item.getItemId()) {
 
-                    case R.id.profile_action:
-                        startActivity(new Intent(post.this, search.class));
-                        return true;
-
-                    case R.id.home_action:
-                        startActivity(new Intent(post.this, MainActivity.class));
-                        return true;
-
-                    case R.id.watching_action:
-                        startActivity(new Intent(post.this, search.class));
-                        return true;
-                }
-                return false;
-            }
-        });*/
     }
 
     // this method determine if action bar item was selected. If true do action
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        //Handles Action Bar selection
         switch (item.getItemId()){
 
             case R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
-            /*case R.id.action_search:
-                startActivity(new Intent(this, search.class));
-                return true;
-
-            case  R.id.post_action:
-                startActivity(new Intent(this, post.class));
-                return true;*/
         }
         return super.onOptionsItemSelected(item);
     }
