@@ -1,13 +1,12 @@
 package johnnybanh.borrowapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -16,62 +15,49 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
+
 import johnnybanh.borrowapp.itemData.Items;
 
-public class search extends AppCompatActivity {
+public class WatchList extends AppCompatActivity {
+
 
     Toolbar toolbar;
     ImageButton homeToolBtn, profileToolBtn, watchingToolBtn;
-    EditText searchItem, searchCity, searchState;
-    Button searchButton;
-    ListView searchReturnList;
-    SearchAdapter searchadapter;
-    private Firebase firebase;
+    ListView watchingListView;
+    Firebase firebase;
+    private WatchingItemsAdapter watchingItemsAdapter;
+    int myColor = Color.rgb(10, 10, 70);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
         Firebase.setAndroidContext(this);
         firebase = new Firebase("https://luminous-inferno-3787.firebaseio.com/");
+        setContentView(R.layout.activity_watch_list);
 
-        searchItem = (EditText) findViewById(R.id.searchItem);
-        searchCity = (EditText) findViewById(R.id.searchCity);
-        searchState = (EditText) findViewById(R.id.searchState);
-        searchButton = (Button) findViewById(R.id.searchButton);
-        searchReturnList = (ListView) findViewById(R.id.searchItemList);
+        watchingListView = (ListView) findViewById(R.id.watchingList);
 
-        //triggers database search
-        searchButton.setOnClickListener(new View.OnClickListener() {
+
+        firebase.child("Database/WatchingList").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                final String inputItem = searchItem.getText().toString();
-                final String inputCity = searchCity.getText().toString();
-                final String inputState = searchState.getText().toString();
+                watchingItemsAdapter = new WatchingItemsAdapter(WatchList.this, firebase, dataSnapshot);
+                watchingListView.setAdapter(watchingItemsAdapter);
+            }
 
-                firebase.child("Database/ItemBank").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        searchadapter = new SearchAdapter(search.this, firebase , dataSnapshot, inputItem, inputCity, inputState);
-                        searchReturnList.setAdapter(searchadapter);
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                });
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
 
             }
         });
 
-        searchReturnList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        watchingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Items item = (Items) searchadapter.getItem(position);
-                Intent intent = new Intent(search.this, ItemInformation.class);
+                Items item = (Items) watchingItemsAdapter.getItem(position);
+                Intent intent = new Intent(WatchList.this, ItemInformation.class);
                 intent.putExtra("itemName", item.getName());
                 intent.putExtra("itemLocation", item.getCity() + ", " + item.getState());
                 String printRate = "";
@@ -93,21 +79,25 @@ public class search extends AppCompatActivity {
 
                 }
                 intent.putExtra("itemRate", printRate);
-                intent.putExtra("itemCategories",  item.getCategories());
+                intent.putExtra("itemCategories", item.getCategories());
                 intent.putExtra("itemSpecifics",  item.getSpecifics());
                 startActivity(intent);
             }
         });
 
+        watchingListView.setAdapter(watchingItemsAdapter);
+
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        homeToolBtn = (ImageButton) toolbar.findViewById(R.id.home_button);
-        profileToolBtn = (ImageButton) toolbar.findViewById(R.id.profile_button);
-        watchingToolBtn = (ImageButton) toolbar.findViewById(R.id.watching_button);
+        homeToolBtn = (ImageButton) findViewById(R.id.home_button);
+        profileToolBtn = (ImageButton) findViewById(R.id.profile_button);
+        watchingToolBtn = (ImageButton) findViewById(R.id.watching_button);
+        watchingToolBtn.setBackgroundColor(myColor);
 
         homeToolBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent searchIntent = new Intent(search.this, MainActivity.class);
+                Intent searchIntent = new Intent(WatchList.this, MainActivity.class);
                 startActivity(searchIntent);
             }
         });
@@ -115,7 +105,7 @@ public class search extends AppCompatActivity {
         profileToolBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent searchIntent = new Intent(search.this, MainActivity.class);
+                Intent searchIntent = new Intent(WatchList.this, MainActivity.class);
                 startActivity(searchIntent);
             }
         });
@@ -123,7 +113,7 @@ public class search extends AppCompatActivity {
         watchingToolBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent searchIntent = new Intent(search.this, WatchList.class);
+                Intent searchIntent = new Intent(WatchList.this, WatchList.class);
                 startActivity(searchIntent);
             }
         });

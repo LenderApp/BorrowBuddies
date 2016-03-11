@@ -13,27 +13,39 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Objects;
+
+import johnnybanh.borrowapp.itemData.Items;
 
 
 public class MainActivity extends AppCompatActivity {
 
     ListView borrowedListView;
+    TextView itemName, itemLocation;
     Toolbar toolbar;
     Button searchButton;
     ImageButton homeToolBtn, profileToolBtn, watchingToolBtn;
+    Firebase firebase;
     int myColor = Color.rgb(10,10,70);
 
-   private ArrayList<BorrowedItems> borrowedItems;
+    private ArrayList<String> borrowedItems;
     private BorrowedItemsAdapter borrowedItemsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Firebase.setAndroidContext(this);
+        firebase = new Firebase("https://luminous-inferno-3787.firebaseio.com/");
         searchButton = (Button) findViewById(R.id.homeSearchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,19 +54,59 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        itemName = (TextView) findViewById(R.id.borrowListItemName);
+
+        itemLocation = (TextView) findViewById(R.id.borrowItemDate);
+
         borrowedItems = new ArrayList<>();
-        borrowedItems.add(new BorrowedItems("Bauer Vapor Skates", "01/02/2016", R.drawable.skates));
-        borrowedItems.add(new BorrowedItems("Crock Pot Cooker", "12/25/2015", R.drawable.crockpot));
-        borrowedItems.add(new BorrowedItems("iHome for iPhone 4, 4s", "01/11/2016", R.drawable.ihome));
-        borrowedItems.add(new BorrowedItems("Warrior Hockey Gloves", "01/02/2016", R.drawable.gloves));
 
         borrowedListView = (ListView) findViewById(R.id.borrowingList);
-        borrowedItemsAdapter = new BorrowedItemsAdapter(this, borrowedItems);
+
+
+        firebase.child("Database/BorrowList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                borrowedItemsAdapter = new BorrowedItemsAdapter(MainActivity.this, firebase, dataSnapshot);
+                borrowedListView.setAdapter(borrowedItemsAdapter);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
         borrowedListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               Intent intent = new Intent(MainActivity.this, ItemInformation.class);
+                Items item = (Items) borrowedItemsAdapter.getItem(position);
+                Intent intent = new Intent(MainActivity.this, ItemInformation.class);
+                intent.putExtra("itemPic", R.drawable.turtle);
+                intent.putExtra("itemName", item.getName());
+                intent.putExtra("itemLocation", item.getCity() + ", " + item.getState());
+                String printRate = "";
+                if (item.getRate() == 0.0) {
+                    printRate = "Free";
+                } else {
+                    String amount = String.valueOf(item.getRate());
+                    String decimalCheck = "";
+                    for (int i = 0; i < amount.length(); i++) {
+                        if (amount.charAt(i) == '.') {
+                            decimalCheck = amount.substring(i, amount.length());
+                        }
+                    }
+
+                    if (decimalCheck.length() < 3)
+                        printRate = "$" + amount + "0";
+                    else
+                        printRate = "$" + amount;
+
+                }
+                intent.putExtra("itemRate", printRate);
+                intent.putExtra("itemCategories", item.getCategories());
+                intent.putExtra("itemSpecifics",  item.getSpecifics());
                 startActivity(intent);
             }
         });
@@ -78,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         profileToolBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent searchIntent = new Intent(MainActivity.this, post.class);
+                Intent searchIntent = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(searchIntent);
             }
         });
@@ -86,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         watchingToolBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent searchIntent = new Intent(MainActivity.this, search.class);
+                Intent searchIntent = new Intent(MainActivity.this, WatchList.class);
                 startActivity(searchIntent);
             }
         });

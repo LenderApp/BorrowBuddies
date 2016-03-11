@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
 import com.firebase.client.Firebase;
 import java.util.ArrayList;
 
@@ -86,7 +88,9 @@ public class post extends AppCompatActivity {
                 String state = postItemState.getText().toString();
 
                 PostItem postitem = new PostItem(name, rate, categories, specifics, city, state);
-                firebase.child("ItemBank/").push().setValue(postitem);
+                firebase.child("Database/ItemBank").push().setValue(postitem);
+
+                Toast.makeText(post.this, "Your Item has been posted!", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(post.this, MainActivity.class);
                 startActivity(intent);
@@ -111,7 +115,7 @@ public class post extends AppCompatActivity {
         profileToolBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent searchIntent = new Intent(post.this, post.class);
+                Intent searchIntent = new Intent(post.this, MainActivity.class);
                 startActivity(searchIntent);
             }
         });
@@ -119,7 +123,7 @@ public class post extends AppCompatActivity {
         watchingToolBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent searchIntent = new Intent(post.this, search.class);
+                Intent searchIntent = new Intent(post.this, WatchList.class);
                 startActivity(searchIntent);
             }
         });

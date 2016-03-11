@@ -1,60 +1,101 @@
 package johnnybanh.borrowapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import johnnybanh.borrowapp.itemData.Items;
 
 /**
  * Created by johnnybanh on 1/27/16.
  */
-public class BorrowedItemsAdapter extends ArrayAdapter<BorrowedItems> {
+public class BorrowedItemsAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<BorrowedItems> borrowedItems;
+    private List<String> idList;
+    private Map<String, Items> itemMap;
+    private Firebase firebase;
+    String id;
 
-    public BorrowedItemsAdapter(Context context, ArrayList<BorrowedItems> borrowedItems){
-        super(context, R.layout.borrowing_list, borrowedItems);
+    public BorrowedItemsAdapter(Context context, Firebase firebase, DataSnapshot dataSnapshot) {
         this.context = context;
-        this.borrowedItems = borrowedItems;
+        this.firebase = firebase;
+        initData(dataSnapshot);
+    }
 
+    private void initData(DataSnapshot dataSnapshot) {
+
+        idList = new ArrayList<String>();
+        itemMap = new HashMap<String, Items>();
+
+        for (DataSnapshot data : dataSnapshot.getChildren()) {
+            String id = data.getKey();
+            Items item = data.getValue(Items.class);
+            idList.add(id);
+            itemMap.put(id, item);
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return idList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        id = idList.get(position);
+        return itemMap.get(id);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-       // return super.getView(position, convertView, parent);
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.borrowing_list, parent, false);
+        View view = layoutInflater.inflate(R.layout.borrowing_list, parent, false);
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.borrowListImage);
-        imageView.setImageResource(borrowedItems.get(position).getPhotoRes());
+        final ImageView borrowImage = (ImageView) view.findViewById(R.id.borrowListImage);
+        final TextView borrowName = (TextView) view.findViewById(R.id.borrowListItemName);
+        final TextView borrowLocation = (TextView) view.findViewById(R.id.borrowItemDate);
 
-        TextView itemName = (TextView) view.findViewById(R.id.borrowListItemName);
-        if (borrowedItems.get(position).getName().toString().length() > 20){
+        final Items item = (Items) getItem(position);
 
-            itemName.setText(borrowedItems.get(position).getName().substring(0,15) + "...");
-        }
-        else {
-            itemName.setText(borrowedItems.get(position).getName());
-        }
+        borrowImage.setImageResource(R.drawable.turtle);
+        if (item.getName().length() > 20)
+            borrowName.setText(item.getName().substring(0, 15) + "...");
+        else
+            borrowName.setText(item.getName());
 
-        TextView itemDate = (TextView) view.findViewById(R.id.borrowItemDate);
-        itemDate.setText("Date Borrowed: " + borrowedItems.get(position).getDate());
+        borrowLocation.setText("Location: " + item.getCity() + ", " + item.getState());
 
         Button returnButton = (Button) view.findViewById(R.id.returnedButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                borrowedItems.remove(position);
-                BorrowedItemsAdapter.this.notifyDataSetChanged();
+                Toast.makeText(context, "Item Returned!", Toast.LENGTH_SHORT).show();
             }
         });
 

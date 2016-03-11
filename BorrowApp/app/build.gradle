@@ -8,8 +8,8 @@ android {
         applicationId "johnnybanh.borrowapp"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
     }
     buildTypes {
         release {
@@ -29,5 +29,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.firebase:firebase-client-android:2.5.0+'
+    compile 'com.firebase:firebase-client-android:2.5.2+'
+    compile 'com.android.support:support-v4:23.1.1'
+    compile 'org.codehaus.jackson:jackson-core-asl:1.1.0'
+    compile 'com.android.support:design:23.1.1'
 }
